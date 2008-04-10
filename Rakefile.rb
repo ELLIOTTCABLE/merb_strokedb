@@ -38,3 +38,16 @@ desc "Install merb_strokedb"
 task :install => :package do
   sh %{#{SUDO} gem install pkg/merb_strokedb-#{Merb::Orms::StrokeDB::VERSION} --no-rdoc --no-ri --no-update-sources}
 end
+
+task :manifest => :clean do
+  sh %{rake check_manifest | patch} rescue nil
+end
+
+# desc "Clears the manifest, because of Hoe's shit about .git folders. Fuck hoe."
+task :clobber_manifest do
+  sh %{rm -f Manifest.txt; touch Manifest.txt} rescue nil
+end
+
+# desc "Run specs, clean tree, update manifest, run coverage, and install gem!"
+desc "Clean tree, update manifest, and install gem!"
+task :magic => [:clean, :manifest, :install, :clobber_manifest]

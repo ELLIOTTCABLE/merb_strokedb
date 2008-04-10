@@ -1,5 +1,5 @@
 require 'fileutils'
-require 'strokedb'
+require 'strokedb' unless Object.const_defined? 'StrokeDB'
 
 module Merb
   module Orms
@@ -40,10 +40,9 @@ module Merb
         def connect
           if File.exists?(config_file)
             Merb.logger.info!("Connecting to database db/#{config[:database]}.strokedb...")
+            ::StrokeDB.use_global_default_config!
             
             ::StrokeDB::Config.build :default => true, :base_path => "db/#{config[:database]}.strokedb"
-            
-            Merb.logger.info!("StrokeDB configured as follows:" + ::StrokeDB.default_config.inspect)
           else
             copy_sample_config
             Merb.logger.warn "No store.yml file found in #{Merb.root}/config."
