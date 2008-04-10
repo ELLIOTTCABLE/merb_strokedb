@@ -50,4 +50,4 @@ end
 
 # desc "Run specs, clean tree, update manifest, run coverage, and install gem!"
 desc "Clean tree, update manifest, and install gem!"
-task :magic => [:clean, :manifest, :install, :clobber_manifest]
+task :magic => [:clean, :manifest, :install]
