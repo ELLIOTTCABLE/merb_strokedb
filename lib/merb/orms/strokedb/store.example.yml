@@ -1,0 +1,12 @@
+---
+# This is a sample configuration file for StrokeDB
+:development: &defaults
+  :database: development
+
+:test:
+  <<: *defaults
+  :database: test
+
+:production:
+  <<: *defaults
+  :database: production
