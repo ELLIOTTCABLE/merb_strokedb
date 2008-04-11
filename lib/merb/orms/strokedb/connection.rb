@@ -24,7 +24,7 @@ module Merb
               config = (Merb::Plugins.config[:merb_strokedb] = {})
               
               envd_config = (full_config[Merb.environment.to_sym] || full_config[Merb.environment])
-              raise 'EnvironmentError' unless envd_config
+              raise 'EnvironmentError' unless envd_config.respond_to? :each
               envd_config.each do |k, v| 
                 if k == 'port'
                   config[k.to_sym] = v.to_i
