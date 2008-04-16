@@ -10,7 +10,7 @@ Echoe.taskify do
     g.url = 'http://find.elliottcable.name/merb_strokedb'
     g.description = 'a plugin for Merb, that allows the use of StrokeDB as an ORM within a Merb application'
     g.dependencies = ['merb-core', 'strokedb']
-    g.manifest_name = '.MANIFEST'
+    g.manifest_name = '.manifest'
     g.ignore_pattern = /(^\.git|^example_merb_app\/(db|log))/
     g.project = 'merb-strokedb'
   end
