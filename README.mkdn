@@ -1,3 +1,57 @@
-No le work-y, senor.
+rdie
+====
 
-This don't work yet. Ignore me... for now *muhahaha*
+merb_strokedb is a simple plugin for [Merb][] that allows you to use [StrokeDB][]
+as an 'ORM' in your Merb applications.
+
+  [Merb]: <http://merbivore.com> (Merb homepage)
+  [StrokeDB]: <http://strokedb.com> (StrokeDB homepage)
+
+Getting
+-------
+
+The authoritative source for this project is available at
+<http://github.com/elliottcable/merb_strokedb>. You can clone your own copy with the
+following command:
+
+    git clone git://github.com/elliottcable/merb_strokedb.git
+
+If you want to make changes to the codebase, you need to fork your own github
+repository for said changes. Send a pullrequest to [elliottcable][5]
+when you've got something ready for the master that you think should be
+integrated into the root source.
+
+  [5]: <http://github.com/elliottcable> (elliottcable on GitHub)
+
+A gem will be available via `gem install` as soon as I am convinced I don't
+have any major bugs that will make this unusable. Maybe a week?
+
+Requirements
+------------
+
+To integrate merb_strokedb into your own apps, you need the following gems:
+
+* merb-core (see below)
+* strokedb (see below)
+
+To develop and contribute to merb_strokedb, you also need:
+
+* rspec
+* rake
+* rcov
+
+merb-core
+---------
+
+As it currently stands, merb_strokedb is only compatible with merb master.
+
+To easily install the current merb master, install them with the merb-dev
+Sakefile as follows:
+
+    sudo gem install sake
+    mkdir -p ~/.ruby; cd ~/.ruby
+    sake -i http://github.com/ivey/merb-dev/tree/master/merb-dev.rake?raw=true
+    sake merb:clone
+    cd ~/.ruby/merb
+    sudo sake merb:gems:wipe
+    sudo sake merb:install
