@@ -6,7 +6,7 @@ module Merb
     
     module StrokeDB
       THREADS = []
-      VERSION = '1'
+      VERSION = '0'
       
       class << self
         def config_file() Merb.root / "config" / "store.yml" end
@@ -39,21 +39,26 @@ module Merb
         # Database connects as soon as the gem is loaded
         def connect
           if File.exists?(config_file)
-            Merb.logger.info!("Connecting to database db/#{config[:database]}.strokedb...")
+            Merb.logger.info!("Setting up & connecting to database db/#{config[:database]}.strokedb...")
             ::StrokeDB.use_global_default_config!
             
-            Merb.logger.info!("Starting StrokeDB server on localhost:#{config[:port]}...")
-            # Create the server, and detach...
-            ::StrokeDB::Config.build :default => true, :base_path => "db/#{config[:database]}.strokedb"
-            StrokeDB::THREADS << ::StrokeDB.default_store.remote_server("druby://localhost:#{config[:port]}").start
+            if config[:threadsafe]
+              Merb.logger.info!("Starting StrokeDB DRb server on druby://localhost:#{config[:port]}...")
+              # Create the server, and detach...
+              ::StrokeDB::Config.build :default => true, :base_path => "db/#{config[:database]}.strokedb"
+              Merb::Orms::StrokeDB::THREADS <<
+                ::StrokeDB.default_store.remote_server("druby://localhost:#{config[:port]}").start
             
-            Merb::Orms::StrokeDB::THREADS.map do |thread|
-              ::Kernel.fork { thread.join }
+              Merb::Orms::StrokeDB::THREADS.map do |thread|
+                ::Kernel.fork { thread.join }
+              end
+            
+            
+              # Reattach to the now-running server
+              ::StrokeDB.default_store = ::StrokeDB::RemoteStore::DRb::Client.new("druby://localhost:#{config[:port]}")
+            else
+              ::StrokeDB::Config.build :default => true, :base_path => "db/#{config[:database]}.strokedb"
             end
-            
-            
-            # Reattach to the now-running server
-            ::StrokeDB.default_store = ::StrokeDB::RemoteStore::DRb::Client.new("druby://localhost:#{config[:port]}")
           else
             copy_sample_config
             Merb.logger.warn "No store.yml file found in #{Merb.root}/config."
@@ -63,12 +68,12 @@ module Merb
         end
         
         # Registering this ORM lets the user choose StrokeDB as a session store
-        # in merb.yml's session_store: option.
-        # def register_session_type
-        #           Merb.register_session_type("strokedb",
-        #           "merb/session/strokedb_session",
-        #           "Using StrokeDB sessions")
-        #         end
+        # in merb.yml's session_store: option. No idea if this works, correctly...?
+        def register_session_type
+          Merb.register_session_type("strokedb",
+          "merb/session/strokedb_session",
+          "Using StrokeDB sessions")
+        end
       end
     end
     

@@ -1,6 +1,7 @@
 ---
 # This is a sample configuration file for StrokeDB
 :development: &defaults
+  :threadsafe: false
   :database: development
 
 :test:
@@ -9,4 +10,6 @@
 
 :production:
   <<: *defaults
+  :threadsafe: true
+  :port: 9999
   :database: production
