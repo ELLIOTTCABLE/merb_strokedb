@@ -24,7 +24,6 @@ module Merb
               config = (Merb::Plugins.config[:merb_strokedb] = {})
               
               envd_config = (full_config[Merb.environment.to_sym] || full_config[Merb.environment])
-              raise 'EnvironmentError' unless envd_config.respond_to? :each
               envd_config.each do |k, v| 
                 if k == 'port'
                   config[k.to_sym] = v.to_i
@@ -42,7 +41,13 @@ module Merb
             Merb.logger.info!("Connecting to database db/#{config[:database]}.strokedb...")
             ::StrokeDB.use_global_default_config!
             
+            Merb.logger.info!("Starting StrokeDB server on localhost:#{config[:port]}...")
+            # Create the server, and detach...
             ::StrokeDB::Config.build :default => true, :base_path => "db/#{config[:database]}.strokedb"
+            $StrokeDB_THREAD = ::StrokeDB.default_store.remote_server("druby://localhost:#{config[:port]}").start
+            
+            # Reattach to the now-running server
+            ::StrokeDB.default_store = ::StrokeDB::RemoteStore::DRb::Client.new("druby://localhost:#{config[:port]}")
           else
             copy_sample_config
             Merb.logger.warn "No store.yml file found in #{Merb.root}/config."

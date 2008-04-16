@@ -19,12 +19,15 @@ Merb::Config.use { |c|
 }
 
 # Development StrokeDB
-STROKEDB_PATH = '/Users/elliottcable/Documents/Work/Code/strokedb/strokedb-ruby/strokedb.rb'
-# STROKEDB_PATH = nil
-
+STROKEDB_PATH = nil # '/Users/elliottcable/Documents/Work/Code/strokedb'
 raise 'You need to set STROKEDB_PATH in config/init.rb!' unless STROKEDB_PATH
+require STROKEDB_PATH + '/strokedb-ruby/strokedb.rb'
 
-require STROKEDB_PATH
+# Development merb_strokedb
+MERB_STROKEDB_PATH = nil # '/Users/elliottcable/Documents/Work/Code/merb_strokedb'
+raise 'You need to set MERB_STROKEDB_PATH in config/init.rb!' unless MERB_STROKEDB_PATH
+$LOAD_PATH.unshift(MERB_STROKEDB_PATH + '/lib').uniq!
+
 use_orm :strokedb
 
 dependency 'merb-haml', '> 0.9'
