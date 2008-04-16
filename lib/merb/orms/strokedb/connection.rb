@@ -5,6 +5,7 @@ module Merb
   module Orms
     
     module StrokeDB
+      THREADS = []
       VERSION = '1'
       
       class << self
@@ -44,7 +45,12 @@ module Merb
             Merb.logger.info!("Starting StrokeDB server on localhost:#{config[:port]}...")
             # Create the server, and detach...
             ::StrokeDB::Config.build :default => true, :base_path => "db/#{config[:database]}.strokedb"
-            $StrokeDB_THREAD = ::StrokeDB.default_store.remote_server("druby://localhost:#{config[:port]}").start
+            StrokeDB::THREADS << ::StrokeDB.default_store.remote_server("druby://localhost:#{config[:port]}").start
+            
+            Merb::Orms::StrokeDB::THREADS.map do |thread|
+              ::Kernel.fork { thread.join }
+            end
+            
             
             # Reattach to the now-running server
             ::StrokeDB.default_store = ::StrokeDB::RemoteStore::DRb::Client.new("druby://localhost:#{config[:port]}")

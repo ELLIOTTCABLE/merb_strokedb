@@ -8,15 +8,14 @@ class SdbTest < Merb::Controller
 
   def index
     @apple = Fruit.new
-    @apple.color = :red
     @apple.save!
-    "#{CGI::escapeHTML(@apple.color.inspect)}"
+    "#{CGI::escapeHTML(@apple.inspect)}"
   end
   
   def test
     @orange = Fruit.new
-    @orange.color = :orange
     @orange.save!
+    render
   end
   
   def list
