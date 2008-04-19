@@ -10,6 +10,10 @@ as an 'ORM' in your Merb applications.
 Getting
 -------
 
+You can install merb_strokedb using the following command:
+
+    sudo gem install merb_strokedb
+
 The authoritative source for this project is available at
 <http://github.com/elliottcable/merb_strokedb>. You can clone your own copy with the
 following command:
@@ -17,14 +21,11 @@ following command:
     git clone git://github.com/elliottcable/merb_strokedb.git
 
 If you want to make changes to the codebase, you need to fork your own github
-repository for said changes. Send a pullrequest to [elliottcable][5]
+repository for said changes. Send a pullrequest to [elliottcable][GitHub]
 when you've got something ready for the master that you think should be
 integrated into the root source.
 
-  [5]: <http://github.com/elliottcable> (elliottcable on GitHub)
-
-A gem will be available via `gem install` as soon as I am convinced I don't
-have any major bugs that will make this unusable. Maybe a week?
+  [GitHub]: <http://github.com/elliottcable> (elliottcable on GitHub)
 
 Requirements
 ------------
@@ -55,3 +56,16 @@ Sakefile as follows:
     cd ~/.ruby/merb
     sudo sake merb:gems:wipe
     sudo sake merb:install
+
+Licensing
+---------
+
+This software package is currently released under the terms of the
+[Creative Commons Attribution-ShareAlike 3.0][1] license (and any later
+version, at the discretion of the user). If you wish to use this code in a
+project licensed under the GPL, hold on tight! The next version will likely be
+dual-licensed under the CC and GNU licenses, to allow exactly that (my
+licensing scheme is under review by a lawyer at the moment, I want to ensure
+it is air-tight).
+
+  [1]: <http://creativecommons.org/licenses/by-sa/3.0/> (Creative Commons Attribution-ShareAlike 3.0 license)

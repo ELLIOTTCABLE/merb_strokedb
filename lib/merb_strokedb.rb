@@ -1,4 +1,12 @@
 if defined?(Merb::Plugins)
+  module Merb::Orms
+    
+    module StrokeDB
+      VERSION = 1
+    end
+      
+  end
+  
   require File.join(File.dirname(__FILE__) / :merb / :orms / :strokedb / :connection)
   Merb::Plugins.add_rakefiles 'merb_strokedb' / 'strokedb.task'
   

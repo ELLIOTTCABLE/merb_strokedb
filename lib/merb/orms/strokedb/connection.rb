@@ -6,7 +6,6 @@ module Merb
     
     module StrokeDB
       THREADS = []
-      VERSION = '1'
       
       class << self
         def config_file() Merb.root / "config" / "store.yml" end
