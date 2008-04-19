@@ -13,6 +13,9 @@ Echoe.taskify do
     g.manifest_name = '.manifest'
     g.ignore_pattern = /(^\.git|^example_merb_app\/(db|log))/
     g.project = 'merb-strokedb'
+    g.install_message = " - Thanks for installing merb_strokedb!\n" +
+                        " - Add this to your config/init.rb to get started:\n"+
+                        " -   use_orm :strokedb"
   end
   
   desc 'tests packaged files to ensure they are all present'
