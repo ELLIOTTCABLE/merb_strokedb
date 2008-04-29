@@ -1,6 +1,7 @@
 require 'rubygems'; require 'merb-core'
 $:.unshift(File.dirname(__FILE__) + '/lib'); require 'merb_strokedb'
 Dir['task/**/*.task'].each {|t| load t}
+require 'fileutils'; include FileUtils
 
 Echoe.taskify do
   Echoe.new('merb_strokedb', Merb::Orms::StrokeDB::VERSION) do |g|
@@ -25,7 +26,15 @@ Echoe.taskify do
       puts "\nThe library files are present"
     end
   end
-
+  
+  task :copy_gemspec => [:package] do
+    pkg = Dir['pkg/*'].select {|dir| File.directory? dir}.last
+    mv File.join(pkg, pkg.gsub(/^pkg\//,'').gsub(/\-\d+$/,'.gemspec')), './'
+  end
+  
+  desc 'builds a gemspec as GitHub wants it'
+  task :gemspec => [:package, :copy_gemspec, :clobber_package]
+  
   # desc 'Run specs, clean tree, update manifest, run coverage, and install gem!'
   desc 'Clean tree, update manifest, and install gem!'
   task :magic => [:clean, :manifest, :install]

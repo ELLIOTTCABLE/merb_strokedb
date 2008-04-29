@@ -14,6 +14,20 @@ You can install merb_strokedb using the following command:
 
     sudo gem install merb_strokedb
 
+This installs merb_strokedb from RubyForge. This is mostl likely an
+out-of-date and older version of the package, and may be buggy. If you wish to
+install the latest edge version of the package, install it from the GitHub gem
+source instead:
+
+    gem sources -a http://gems.github.com/
+    sudo gem install elliottcable-merb_strokedb
+
+If you install both versions, you will need to use the following code to require
+the edge version correctly:
+
+    gem 'elliottcable-merb_strokedb'
+    require 'merb_strokedb'
+
 The authoritative source for this project is available at
 <http://github.com/elliottcable/merb_strokedb>. You can clone your own copy with the
 following command:
